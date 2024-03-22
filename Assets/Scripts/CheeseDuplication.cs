@@ -32,9 +32,11 @@ public class CheeseDuplication : MonoBehaviour
 
     private void CreateCheese() {
         Vector3 randomPosition = Random.insideUnitSphere * spawnRadius;
+        randomPosition.y = 0;
         float randomRotationY = Random.Range(0f, 360f); 
         float randomRotationZ = Random.Range(0f, 360f); 
         GameObject cheeseClone = Instantiate(gameObject, transform.position + randomPosition, Quaternion.Euler(0, randomRotationY, randomRotationZ));
+        cloned = true;
     }
 
 }
