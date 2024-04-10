@@ -80,15 +80,10 @@ public class CarControl : MonoBehaviour
     }
 
     void Turn () {
-        if (rb.velocity.magnitude >= 0.01f) {
-            if (Input.GetKey(KeyCode.A))
-            {
-                rb.AddTorque(-Vector3.up * turnSpeed * 10);
-            }
-            else if (Input.GetKey(KeyCode.D))
-            {
-                rb.AddTorque(Vector3.up * turnSpeed * 10);
-            }
+        if (rb.velocity.magnitude >= 0.01f)
+        {
+            float horizontalInput = Input.GetAxis("Horizontal"); // Get the horizontal axis input
+            rb.AddTorque(Vector3.up * turnSpeed * 10 * horizontalInput);
         }
     }
 
