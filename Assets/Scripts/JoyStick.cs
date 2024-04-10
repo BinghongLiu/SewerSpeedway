@@ -61,32 +61,41 @@ public class JoyStick : MonoBehaviour
         Fall();
     }
 
-    void Accelerate()
-    {
-        float triggerInput = Input.GetAxis("Triggers"); // Assumes RT is positive, LT is negative.
-
-        if (triggerInput > 0)
-        {
-            Vector3 forceToAdd = transform.forward * speed * 10 * triggerInput;
-            rb.AddForce(forceToAdd);
-        }
-        else if (triggerInput < 0)
-        {
-            Vector3 forceToAdd = -transform.forward * speed * 10 * -triggerInput;
-            rb.AddForce(forceToAdd);
+    void Accelerate () {
+        if (cheeseCounter > 0 && usedBoost == false) {
+            if (Input.GetButtonDown("JoystickButton2")) {
+                usedBoost = true;
+                speed = boostedSpeed;
+                boostTimer += boostDuration;
+                cheeseCounter -= 1;
+                displayTime.SetActive(true);
+                UpdateCheese();
+                UpdateBoostTimer();
+            }
         }
 
-        // Keeping the vertical velocity consistent while altering horizontal movement.
-        Vector3 localVelocity = transform.InverseTransformDirection(rb.velocity);
-        localVelocity = new Vector3(0, localVelocity.y, localVelocity.z);
-        rb.velocity = transform.TransformDirection(localVelocity);
+        if (Input.GetKey(KeyCode.W))
+        {
+            Vector3 forceToAdd = transform.forward;
+            forceToAdd.y = 0;
+            rb.AddForce(forceToAdd * speed * 10);
+        }
+        else if (Input.GetKey(KeyCode.S))
+        {
+            Vector3 forceToAdd = -transform.forward;
+            forceToAdd.y = 0;
+            rb.AddForce(forceToAdd * speed * 10);
+        }
+
+        Vector3 locVel = transform.InverseTransformDirection(rb.velocity);
+        locVel = new Vector3(0, locVel.y, locVel.z);
+        rb.velocity = new Vector3(transform.TransformDirection(locVel).x, rb.velocity.y, transform.TransformDirection(locVel).z);
     }
 
-    void Turn()
-    {
-        float horizontalInput = Input.GetAxis("Horizontal");
-        if (Mathf.Abs(horizontalInput) > 0.1f)
+    void Turn () {
+        if (rb.velocity.magnitude >= 0.01f)
         {
+            float horizontalInput = Input.GetAxis("Horizontal"); // Get the horizontal axis input
             rb.AddTorque(Vector3.up * turnSpeed * 10 * horizontalInput);
         }
     }
