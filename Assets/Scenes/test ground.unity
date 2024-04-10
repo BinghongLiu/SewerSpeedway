@@ -1485,6 +1485,10 @@ PrefabInstance:
       value: trash_kart
       objectReference: {fileID: 0}
     - target: {fileID: 4604349814040982754, guid: 5bb5a83d642ea1647948821df977b53e, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4604349814040982754, guid: 5bb5a83d642ea1647948821df977b53e, type: 3}
       propertyPath: m_TagString
       value: Player
       objectReference: {fileID: 0}

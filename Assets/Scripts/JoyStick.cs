@@ -61,26 +61,26 @@ public class JoyStick : MonoBehaviour
         Fall();
     }
 
-    void Accelerate()
-    {
-        float triggerInput = Input.GetAxis("Triggers"); // Assumes RT is positive, LT is negative.
+    void Accelerate() {
 
-        if (triggerInput > 0)
-        {
-            Vector3 forceToAdd = transform.forward * speed * 10 * triggerInput;
-            rb.AddForce(forceToAdd);
-        }
-        else if (triggerInput < 0)
-        {
-            Vector3 forceToAdd = -transform.forward * speed * 10 * -triggerInput;
-            rb.AddForce(forceToAdd);
-        }
+    float rightTriggerInput = Input.GetAxis("RightTrigger"); 
+    float leftTriggerInput = Input.GetAxis("LeftTrigger");
 
-        // Keeping the vertical velocity consistent while altering horizontal movement.
-        Vector3 localVelocity = transform.InverseTransformDirection(rb.velocity);
-        localVelocity = new Vector3(0, localVelocity.y, localVelocity.z);
-        rb.velocity = transform.TransformDirection(localVelocity);
+    Vector3 forceToAdd = Vector3.zero;
+
+    if (rightTriggerInput > 0) {
+        forceToAdd = transform.forward * speed * 10 * rightTriggerInput;
+    } else if (leftTriggerInput > 0) {
+        forceToAdd = -transform.forward * speed * 10 * leftTriggerInput;
     }
+
+    rb.AddForce(forceToAdd);
+
+    Vector3 localVelocity = transform.InverseTransformDirection(rb.velocity);
+    localVelocity = new Vector3(0, localVelocity.y, localVelocity.z);
+    rb.velocity = transform.TransformDirection(localVelocity);
+}
+
 
     void Turn()
     {
