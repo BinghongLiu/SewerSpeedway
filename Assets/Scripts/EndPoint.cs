@@ -1,0 +1,20 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class EndPoint : MonoBehaviour
+{
+    public GameObject cart;
+
+    private void OnTriggerEnter(Collider collision) {
+        if (collision.tag == "Player")
+        {
+            Destroy(this.gameObject); 
+            CarControl cartScript = cart.GetComponent<CarControl>();
+            if (cartScript != null)
+            {
+                cartScript.enabled = false;
+            }
+        }
+    }
+}
