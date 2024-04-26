@@ -247,26 +247,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36b420b6b22b36d41b20d28c7db04111, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  originalSpeed: 0.75
-  speed: 0.75
-  boostedSpeed: 1.5
+  originalSpeed: 1
+  speed: 1
+  boostedSpeed: 2
   turnSpeed: 0.5
   gravityMultiplier: 1
   cheeseCounter: 10
   boostDuration: 10
   boostTimer: 0
   usedBoost: 0
-  drivable: 0
-  countdownTimer: 0
-  elapsedTimer: 0
   cheeseCount: {fileID: 0}
   displayCheese: {fileID: 0}
   timeCount: {fileID: 0}
   displayTime: {fileID: 0}
-  elapsedTimeDisplay: {fileID: 0}
-  elapsedTime: {fileID: 0}
-  countdownDisplay: {fileID: 0}
-  countDown: {fileID: 0}
 --- !u!54 &3685217811988302263
 Rigidbody:
   m_ObjectHideFlags: 0

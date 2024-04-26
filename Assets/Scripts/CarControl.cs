@@ -16,39 +16,19 @@ public class CarControl : MonoBehaviour
     public float boostDuration;
     public float boostTimer;
     public bool usedBoost = false;
-    public bool drivable = false;
-    public float countdownTimer;
-    public float elapsedTimer;
 
     private Rigidbody rb;
     public TextMeshProUGUI cheeseCount;
     public GameObject displayCheese;
     public TextMeshProUGUI timeCount;
     public GameObject displayTime;
-    public GameObject elapsedTimeDisplay;
-    public TextMeshProUGUI elapsedTime;
-    public GameObject countdownDisplay;
-    public TextMeshProUGUI countDown;
 
     void Start() {
         rb = GetComponent<Rigidbody>();
         cheeseCount.text = ("Cheese Counter: " + cheeseCounter);
-        countDown.text = ("Counting Down: " + Mathf.RoundToInt(countdownTimer));
     }
 
     void Update() {
-
-        if (countdownTimer > 0) {
-            UpdateCountDownTimer();
-            countdownTimer -= Time.deltaTime;
-        } else {
-            drivable = true;
-            elapsedTimeDisplay.SetActive(true);
-            countdownDisplay.SetActive(false);
-            elapsedTimer += Time.deltaTime;
-            UpdateElapsedTime();
-        }
-
         if (boostTimer > 0)
         {
             boostTimer -= Time.deltaTime;
@@ -63,11 +43,9 @@ public class CarControl : MonoBehaviour
     }
 
     void FixedUpdate() {
-        if (drivable) {
-            Accelerate();
-            Turn();
-            Fall();
-        }
+        Accelerate();
+        Turn();
+        Fall();
     }
 
     void Accelerate () {
@@ -128,14 +106,6 @@ public class CarControl : MonoBehaviour
     }
 
     void UpdateBoostTimer() {
-        timeCount.text = ("Remaining Boost Time: " + Mathf.RoundToInt(boostTimer));
-    }
-
-    void UpdateElapsedTime() {
-        elapsedTime.text = ("Elapsed Time: " + Mathf.RoundToInt(elapsedTimer) + " seconds");
-    }
-
-    void UpdateCountDownTimer() {
-        countDown.text = ("Counting Down: " + Mathf.RoundToInt(countdownTimer));
+        timeCount.text = ("Remaining Boost Time: " + boostTimer);
     }
 }
