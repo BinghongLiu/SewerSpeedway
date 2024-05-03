@@ -16,36 +16,52 @@ public class CarControl : MonoBehaviour
     public float boostDuration;
     public float boostTimer;
     public bool usedBoost = false;
+    public bool started = false;
 
     private Rigidbody rb;
     public TextMeshProUGUI cheeseCount;
     public GameObject displayCheese;
     public TextMeshProUGUI timeCount;
     public GameObject displayTime;
+    public TextMeshProUGUI elapsedTime;
+    private float startTime;
+
+    public AudioSource engineSound;
+    public AudioSource revUpSound;
+    public AudioSource startUpSound;
+
 
     void Start() {
         rb = GetComponent<Rigidbody>();
-        cheeseCount.text = ("Cheese Counter: " + cheeseCounter);
+        cheeseCount.text = "Cheese Counter: " + cheeseCounter;
+        StartCoroutine(PlayStartUpSound());
     }
 
     void Update() {
-        if (boostTimer > 0)
-        {
-            boostTimer -= Time.deltaTime;
-            UpdateBoostTimer();
-        } else if (boostTimer == 0 && usedBoost == true) {
-            usedBoost = false;
-            speed = originalSpeed;
-            displayTime.SetActive(false);
-        } else {
-            boostTimer = 0;
+        if (started) {
+            if (boostTimer > 0)
+            {
+                boostTimer -= Time.deltaTime;
+                UpdateBoostTimer();
+            } else if (boostTimer == 0 && usedBoost == true) {
+                usedBoost = false;
+                speed = originalSpeed;
+                displayTime.SetActive(false);
+                UpdateEngineSound(1.0f);
+            } else {
+                boostTimer = 0;
+            }
+
+            UpdateElapsedTime();
         }
     }
 
     void FixedUpdate() {
-        Accelerate();
-        Turn();
-        Fall();
+        if (started) {
+            Accelerate();
+            Turn();
+            Fall();
+        }
     }
 
     void Accelerate () {
@@ -58,6 +74,8 @@ public class CarControl : MonoBehaviour
                 displayTime.SetActive(true);
                 UpdateCheese();
                 UpdateBoostTimer();
+                UpdateEngineSound(1.3f);
+                //StartCoroutine(PlayRevUpSound());
             }
         }
 
@@ -106,6 +124,35 @@ public class CarControl : MonoBehaviour
     }
 
     void UpdateBoostTimer() {
-        timeCount.text = ("Remaining Boost Time: " + boostTimer);
+        timeCount.text = ("Remaining Boost Time: " + Mathf.Round(boostTimer));
+    }
+
+    void UpdateEngineSound(float speedPitch) {
+        engineSound.pitch = speedPitch;
+    }
+
+    IEnumerator PlayRevUpSound() {
+        revUpSound.Play();
+        yield return new WaitForSeconds(1.5f);
+        revUpSound.Stop();
+    }
+
+    IEnumerator PlayStartUpSound() {
+        elapsedTime.text = "3";
+        yield return new WaitForSeconds(1.0f);
+        elapsedTime.text = "2";
+        yield return new WaitForSeconds(1.0f);
+        elapsedTime.text = "1";
+        yield return new WaitForSeconds(1.0f);
+        elapsedTime.text = "Go!";
+        yield return new WaitForSeconds(0.5f);
+        startTime = Time.time;
+        started = true; 
+        engineSound.Play();
+    }
+
+    void UpdateElapsedTime() {
+        float timeElapsed = Time.time - startTime;  // Calculate elapsed time
+        elapsedTime.text = "Elapsed Time: " + timeElapsed.ToString("F2");  // Update the TMP GUI text
     }
 }

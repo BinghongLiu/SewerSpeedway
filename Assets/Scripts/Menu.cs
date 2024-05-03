@@ -6,12 +6,17 @@ using UnityEngine.SceneManagement;
 public class Menu : MonoBehaviour
 {
     
-    void start() {
+    void Start() {
         
     }
 
 
     public void PlayGame() {
+        StartCoroutine(DelayedLoad());
+    }
+
+    IEnumerator DelayedLoad() {
+        yield return new WaitForSeconds(3);
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
     
