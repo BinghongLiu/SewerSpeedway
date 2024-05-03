@@ -5,6 +5,7 @@ using UnityEngine;
 public class CheesePickup : MonoBehaviour
 {
     public GameObject cart;
+    public AudioSource pickUpSound;
 
     private void OnTriggerEnter(Collider collision) {
         if (collision.tag == "Player")
@@ -13,7 +14,8 @@ public class CheesePickup : MonoBehaviour
             CarControl cartScript = cart.GetComponent<CarControl>();
             if (cartScript != null)
             {
-                cartScript.AddCheese(); 
+                cartScript.AddCheese();
+                pickUpSound.Play();
             }
         }
     }

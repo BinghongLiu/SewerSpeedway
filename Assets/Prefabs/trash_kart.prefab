@@ -256,17 +256,11 @@ MonoBehaviour:
   boostDuration: 10
   boostTimer: 0
   usedBoost: 0
-  drivable: 0
-  countdownTimer: 0
-  elapsedTimer: 0
   cheeseCount: {fileID: 0}
   displayCheese: {fileID: 0}
   timeCount: {fileID: 0}
   displayTime: {fileID: 0}
-  elapsedTimeDisplay: {fileID: 0}
-  elapsedTime: {fileID: 0}
-  countdownDisplay: {fileID: 0}
-  countDown: {fileID: 0}
+  engineSound: {fileID: 0}
 --- !u!54 &3685217811988302263
 Rigidbody:
   m_ObjectHideFlags: 0
