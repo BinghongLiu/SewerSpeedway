@@ -11,12 +11,14 @@ public class CarControl : MonoBehaviour
     public float speed;
     public float boostedSpeed;
     public float turnSpeed;
+    public float waterSpeed;
     public float gravityMultiplier;
     public int cheeseCounter;
     public float boostDuration;
     public float boostTimer;
     public bool usedBoost = false;
     public bool started = false;
+    public bool inWater = false;
 
     private Rigidbody rb;
     public TextMeshProUGUI cheeseCount;
@@ -83,13 +85,21 @@ public class CarControl : MonoBehaviour
         {
             Vector3 forceToAdd = transform.forward;
             forceToAdd.y = 0;
-            rb.AddForce(forceToAdd * speed * 10);
+            if (inWater) {
+                rb.AddForce(forceToAdd * speed * 8);
+            } else {
+                rb.AddForce(forceToAdd * speed * 10);
+            }
         }
         else if (Input.GetKey(KeyCode.S))
         {
             Vector3 forceToAdd = -transform.forward;
             forceToAdd.y = 0;
-            rb.AddForce(forceToAdd * speed * 10);
+            if (inWater) {
+                rb.AddForce(forceToAdd * speed * 8);
+            } else {
+                rb.AddForce(forceToAdd * speed * 10);
+            }
         }
 
         Vector3 locVel = transform.InverseTransformDirection(rb.velocity);
@@ -101,17 +111,29 @@ public class CarControl : MonoBehaviour
         if (rb.velocity.magnitude >= 0.01f) {
             if (Input.GetKey(KeyCode.A))
             {
-                rb.AddTorque(-Vector3.up * turnSpeed * 10);
+                if (inWater) {
+                    rb.AddTorque(-Vector3.up * turnSpeed * 8);
+                } else {
+                    rb.AddTorque(-Vector3.up * turnSpeed * 10);
+                }
             }
             else if (Input.GetKey(KeyCode.D))
             {
-                rb.AddTorque(Vector3.up * turnSpeed * 10);
+                if (inWater) {
+                    rb.AddTorque(Vector3.up * turnSpeed * 8);
+                } else {
+                    rb.AddTorque(Vector3.up * turnSpeed * 10);
+                }
             }
         }
     }
 
     void Fall() {
-        rb.AddForce(Vector3.down * gravityMultiplier * 10);
+        if (inWater) {
+            rb.AddForce(Vector3.down *  gravityMultiplier * 8);
+        } else {
+            rb.AddForce(Vector3.down * gravityMultiplier * 10);
+        }
     }
 
     public void AddCheese() {
